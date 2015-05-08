@@ -12,9 +12,13 @@ fi
 mkdir -p $TMP_DIR
 cd $MOUNT_DIR
 
+echo "Scripts to execute: $INIT_SCRIPTS"
+
 for f in $INIT_SCRIPTS; do
     cp $f $TMP_DIR
     chmod +x $TMP_DIR/$f
-    $TMP_DIR/$f
+    echo "Executing $TMP_DIR/$f ..."
+    $TMP_DIR/$f 2>&1
+    echo "Finished $TMP_DIR/$f"
 done
 

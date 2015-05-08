@@ -48,14 +48,15 @@ function execute_scripts {
     for script in $SCRIPTS_DIR/*; do
         echo "Executing $script ..."
         $script
+        echo "Finished $script"
     done
 }
 
 case "$1" in
 "start")
-    test -e /dev/disk/by-label/CONTEXT || echo "CONTEXT not available - sleep 10" >> /var/log/vmcontext.log && sleep 10
-    test -e /dev/disk/by-label/CONTEXT || echo "CONTEXT already not available - sleep 10" >> /var/log/vmcontext.log && sleep 10
-    test -e /dev/disk/by-label/CONTEXT || echo "CONTEXT already not available - sleep 10" >> /var/log/vmcontext.log && sleep 10
+    test -e /dev/disk/by-label/CONTEXT || echo "CONTEXT not available - sleep 10" >> /root/vmcontext.log && sleep 10
+    test -e /dev/disk/by-label/CONTEXT || echo "CONTEXT already not available - sleep 10" >> /root/vmcontext.log && sleep 10
+    test -e /dev/disk/by-label/CONTEXT || echo "CONTEXT already not available - sleep 10" >> /root/vmcontext.log && sleep 10
 
     if [ -e "/dev/disk/by-label/CONTEXT" ]; then
         mount -t iso9660 -L CONTEXT -o ro /mnt
@@ -63,7 +64,7 @@ case "$1" in
             export_rc_vars /mnt/context.sh
         fi
 
-        execute_scripts >> /var/log/vmcontext.log 2>&1
+        execute_scripts >> /root/vmcontext.log 2>&1
 
         umount /mnt
     else
@@ -72,7 +73,7 @@ case "$1" in
             export_rc_vars /tmp/context.sh
         fi
 
-        execute_scripts >> /var/log/vmcontext.log 2>&1
+        execute_scripts >> /root/vmcontext.log 2>&1
     fi
     ;;
 
